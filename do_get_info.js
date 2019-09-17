@@ -47,7 +47,6 @@ function sinhVienGet() {
 	$("#InfoSV").html('');
     var masv = $.trim($("input[name='txtMaSV']").val()).replace(/ /g,'');
     var url ="https://script.google.com/macros/s/AKfycbxrioCVwQiWs8Yq66aS8LyUWqQq576dXxKpZJR4v4CPd8wAcSE/exec?id="+masv;
-    var count = 1;
     var strText = "<table border=1>";
     var strText = "<table class='dtable'>";
     strText += "<tr> <th>Mã SV</th>  <th>Họ tên</th>  <th>Email SV</th>  <th>Điện thoại SV</th>  <th>Lớp</th> <th>Ngành</th>  <th>Tên GV</th>  <th>Email GV</th>  <th>Số ĐT GV</th>   ";
