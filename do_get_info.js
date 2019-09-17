@@ -45,46 +45,37 @@ function doComplete() {
 
 function sinhVienGet() {
 	$("#InfoSV").html('');
-	
     var masv = $.trim($("input[name='txtMaSV']").val()).replace(/ /g,'');
-    
-    var worksheets = [
-        '', // defaults to first worksheet without id
-        'ouab0ad'];
-
-    worksheets.forEach(function (worksheet) {
-        $.googleSheetToJSON('1zp6llWxAzKUd1mf5e_kkI2n-Q1teywaET7OU6iidUJA', worksheet)
-            .done(function (rows) {
-                var strText = "<table border=1>";
-                var strText = "<table class='dtable'>";
-                strText += "<tr> <th>SĐT Giảng Viên</th>  <th>Email GV</th>  <th>Tên GV</th>  <th>Tên SV</th>  <th>Lớp</th> <th>Mã SV</th>  <th>Ngành</th>  <th>Email SV</th>  <th>Số ĐT </th>   ";
-                var count = 0;
-                rows.forEach(function (row) {
-                    var strMaSV = row['masv'].replace(/ /g,'');
-                    if (strMaSV == masv) {
-                        count++;
-                        strText += "<tr>";
-                        Object.getOwnPropertyNames(row).forEach(function (name) {
-                            if (name == 'tt')
-                                return;
-                            
-                            var val = [].concat(row[name]).join(' / ');
-                            strText += "<td>" + val + "</td>";
-                        });
-                        strText += "</tr>";
-                    }
-                    return;
-                });
-                if (count == 0)
-				{
-                    $("#InfoSV").html('Không tìm thấy thông tin sinh viên');
-				}
-                else {
-                    $("#InfoSV").html(strText);
-                }
-            })
-            .fail(function (err) {
-                console.log('error!', err);
-            });
+    var url ="https://script.google.com/macros/s/AKfycbxrioCVwQiWs8Yq66aS8LyUWqQq576dXxKpZJR4v4CPd8wAcSE/exec?id="+masv;
+    var count = 1;
+    var strText = "<table border=1>";
+    var strText = "<table class='dtable'>";
+    strText += "<tr> <th>Mã SV</th>  <th>Họ tên</th>  <th>Email SV</th>  <th>Điện thoại SV</th>  <th>Lớp</th> <th>Ngành</th>  <th>Tên GV</th>  <th>Email GV</th>  <th>Số ĐT GV</th>   ";
+    $.getJSON(url, function( data ) {
+        var items = [];
+        $.each( data, function( key, val ) {
+            if(val.length==0){
+                count=0;
+                return;
+            }
+            strText += "<tr>";
+            strText+="<td>"+val[0]["masv"]+"</td>";
+            strText+="<td>"+val[0]["hoten"]+"</td>";
+            strText+="<td>"+val[0]["sv-email"]+"</td>";
+            strText+="<td>"+val[0]["sv-sdt"]+"</td>";
+            strText+="<td>"+val[0]["malop"]+"</td>";
+            strText+="<td>"+val[0]["nganh"]+"</td>";
+            strText+="<td>"+val[0]["gvhoten"]+"</td>";
+            strText+="<td>"+val[0]["gvemail"]+"</td>";
+            strText+="<td>"+val[0]["gvdienthoai"]+"</td>";
+            strText += "</tr>";
+        });
+        if (count == 0)
+        {
+            $("#InfoSV").html('Không tìm thấy thông tin sinh viên');
+        }
+        else {
+            $("#InfoSV").html(strText);
+        }
     });
 }
