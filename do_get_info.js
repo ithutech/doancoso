@@ -51,7 +51,7 @@ function sinhVienGet() {
     var strText = "<table class='dtable'>";
     strText += "<tr> <th>Mã SV</th>  <th>Họ tên</th>  <th>Email SV</th>  <th>Điện thoại SV</th>  <th>Lớp</th> <th>Ngành</th>  <th>Tên GV</th>  <th>Email GV</th>  <th>Số ĐT GV</th>   ";
     $.getJSON(url, function( data ) {
-		if (typeof data === 'undefined')
+		if (data.user.length == 0)
 		{
 			$("#InfoSV").html('Không tìm thấy thông tin');
             return;
