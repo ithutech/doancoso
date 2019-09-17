@@ -52,12 +52,13 @@ function sinhVienGet() {
     var strText = "<table class='dtable'>";
     strText += "<tr> <th>Mã SV</th>  <th>Họ tên</th>  <th>Email SV</th>  <th>Điện thoại SV</th>  <th>Lớp</th> <th>Ngành</th>  <th>Tên GV</th>  <th>Email GV</th>  <th>Số ĐT GV</th>   ";
     $.getJSON(url, function( data ) {
+		if (typeof data === 'undefined')
+		{
+			$("#InfoSV").html('Không tìm thấy thông tin');
+            return;
+		}
         var items = [];
-        $.each( data, function( key, val ) {
-            if(val.length==0){
-                count=0;
-                return;
-            }
+        $.each(data, function( key, val ) {            
             strText += "<tr>";
             strText+="<td>"+val[0]["masv"]+"</td>";
             strText+="<td>"+val[0]["hoten"]+"</td>";
@@ -70,12 +71,6 @@ function sinhVienGet() {
             strText+="<td>"+val[0]["gvdienthoai"]+"</td>";
             strText += "</tr>";
         });
-        if (count == 0)
-        {
-            $("#InfoSV").html('Không tìm thấy thông tin sinh viên');
-        }
-        else {
-            $("#InfoSV").html(strText);
-        }
+        $("#InfoSV").html(strText);        
     });
 }
